@@ -9,6 +9,8 @@ import com.chatApp.friends.FriendRequest;
 import com.chatApp.friends.FriendRequestRepo;
 import com.chatApp.group.ChatGroup;
 import com.chatApp.group.GroupRepo;
+import com.chatApp.group.request.GroupRequest;
+import com.chatApp.group.request.GroupRequestRepo;
 
 @Service
 public class UserService {
@@ -21,6 +23,9 @@ public class UserService {
 
 	@Autowired
 	private GroupRepo groupRepo;
+	
+	@Autowired
+	private GroupRequestRepo groupRequestRepo;
 
 // UserService class
 	public User registerUser(User user) throws UserRegistrationException {
@@ -72,6 +77,13 @@ public class UserService {
 
 		ChatGroup group = groupRepo.findByGroupName(groupName);
 		User user = userRepository.findByUsername(username);
+		
+		GroupRequest request = groupRequestRepo.findByUsernameAndGroupName(username, groupName);
+		
+		if(request!=null) {
+			request.setAccepted(true);
+			groupRequestRepo.save(request);
+		}
 
 		user.getGroups().add(group);
 

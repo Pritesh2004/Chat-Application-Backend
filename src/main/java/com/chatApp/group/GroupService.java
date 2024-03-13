@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.chatApp.group.request.GroupRequest;
 import com.chatApp.user.User;
 import com.chatApp.user.UserRepository;
 
@@ -33,4 +34,7 @@ public class GroupService {
 		
 		return groupRepo.findAll();
 	}
+	
+	
+	
 }
