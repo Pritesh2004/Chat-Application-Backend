@@ -18,6 +18,7 @@ import com.chatApp.friends.RequestDto;
 import com.chatApp.group.AddUserToGroupDto;
 import com.chatApp.group.ChatGroup;
 import com.chatApp.group.GroupService;
+import com.chatApp.mail.EmailSenderService;
 
 @RestController
 @CrossOrigin(origins = "*") // Adjust the origin to match your Angular application URL
@@ -25,6 +26,9 @@ public class UserController {
 
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private EmailSenderService mailService;
 	
 
 	// UserController class
@@ -111,5 +115,12 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	
+	
+	 @PostMapping("/verify-otp")
+	    public ResponseEntity<String> verifyOTP(@RequestBody VerifyEmailDto mailDto) {
+		 
+		 mailService.sendEmail(mailDto.getEmail(),"Verify Your Email", "Otp for Email Verification is "+mailDto.getOtp() );
+		 return ResponseEntity.ok("OTP Sent successfully.");
+	    }
 }
