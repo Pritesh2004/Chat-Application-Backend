@@ -137,12 +137,30 @@ public class UserService {
 
 	public List<User> getAllUsers(String username) {
 
-		return userRepository.findByUsernameNot(username);
+		return userRepository.findByUsernameNotAndStatus(username, Status.ONLINE);
 	}
 
 	public List<User> getAllFriends(Long user_id) {
 
 		return userRepository.findFriendsByUserId(user_id);
 	}
+	
+	
+	
+	
+	//for websocket connection
+	public void connectUser(UserLogin userDetail) {
+		User user = userRepository.findByUsername(userDetail.getUsername());
+        user.setStatus(Status.ONLINE);
+        userRepository.save(user);
+    }
+
+    public void disconnect(User user) {
+        var storedUser = userRepository.findByUsername(user.getUsername());
+        if (storedUser != null) {
+            storedUser.setStatus(Status.OFFLINE);
+            userRepository.save(storedUser);
+        }
+    }
 
 }

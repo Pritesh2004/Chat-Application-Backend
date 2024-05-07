@@ -13,9 +13,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	public User findByUsername(String username);
 	
-	public List<User> findByUsernameNot(String username);
+	public List<User> findByUsernameNotAndStatus(String username, Status status);
 	
 	 @Query("SELECT u.friends FROM User u JOIN u.friends f WHERE u.id = :userId")
-	    List<User> findFriendsByUserId(@Param("userId") long userId);
+	 List<User> findFriendsByUserId(@Param("userId") long userId);
 	
 }

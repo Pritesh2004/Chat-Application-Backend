@@ -30,7 +30,7 @@ public class Config implements WebSocketMessageBrokerConfigurer{
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		
-		registry.enableSimpleBroker("/topic");   //to subscribe so that we can receive message /topic/return-to
+		registry.enableSimpleBroker("/user");   //to subscribe so that we can receive message /topic/return-to
 		
         registry.setApplicationDestinationPrefixes("/app");  //to send message  /app/message
         
@@ -48,8 +48,8 @@ public class Config implements WebSocketMessageBrokerConfigurer{
 		resolver.setDefaultMimeType(MimeTypeUtils.APPLICATION_JSON);
 		
 		converter.setContentTypeResolver(resolver);
-		messageConverters.add(new StringMessageConverter());
-		messageConverters.add(new ByteArrayMessageConverter());
+//		messageConverters.add(new StringMessageConverter());
+//		messageConverters.add(new ByteArrayMessageConverter());
 		messageConverters.add(converter);
 		
 		return false;

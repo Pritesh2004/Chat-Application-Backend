@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -122,5 +125,28 @@ public class UserController {
 		 
 		 mailService.sendEmail(mailDto.getEmail(),"Verify Your Email", "Otp for Email Verification is "+mailDto.getOtp() );
 		 return ResponseEntity.ok("OTP Sent successfully.");
+	    }
+	 
+	 
+	 
+	 
+	 //for connecting user
+	 @MessageMapping("/user.connectUser")
+	    @SendTo("/user/public")
+	    public UserLogin addUser(
+	            @Payload UserLogin user
+	    ) {
+		 service.connectUser(user);
+	        return user;
+	    }
+	 
+	 //for disconnecting users
+	    @MessageMapping("/user.disconnectUser")
+	    @SendTo("/user/public")
+	    public User disconnectUser(
+	            @Payload User user
+	    ) {
+	    	service.disconnect(user);
+	        return user;
 	    }
 }
